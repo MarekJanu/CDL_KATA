@@ -3,6 +3,7 @@
 }
 
 .whatever {
+  padding: 10px;
   max-width: 50%;
   margin-left: 25%;
   margin-right: 25%;
@@ -10,4 +11,5 @@
   border: solid;
   border-radius: 15px;
   box-shadow: 10px 10px 10px grey;
+  margin-bottom: 40px;
 }

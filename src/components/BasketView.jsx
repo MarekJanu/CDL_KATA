@@ -5,6 +5,7 @@ import "./Styling.css";
 
 export const BasketView = () => {
   const [basket, setBasket] = useState([]);
+
   const productMatrix = {
     1: {
       name: "Item A",
@@ -37,17 +38,78 @@ export const BasketView = () => {
       itemprice: 18,
     },
   };
+
+  const itemsCount = {
+    "Item A": 0,
+    "Item B": 0,
+    "Item C": 0,
+    "Item D": 0,
+    "Item E": 0,
+  };
+  basket.forEach((item) => (itemsCount[item.name] += item.itemquantity));
+
+  //   console.log(itemsCount);
+
   const handleClick = (arg) => {
     let tempItem = {
       name: productMatrix[arg].name,
       description: productMatrix[arg].description,
       special: "",
       itemprice: productMatrix[arg].itemprice,
+      itemquantity: itemsCount[productMatrix[arg].name] + 1,
     };
-    setBasket((currState) => [...currState, tempItem]);
-    console.log(basket);
+    // console.log(tempItem);
+
+    let tempBasket = basket.map((x) => x.name);
+    //   let tempIndexes = basket.map((x, i)=> i)
+    let checkIfIn = tempBasket.includes(productMatrix[arg].name);
+    let indexOfItem = tempBasket.indexOf(productMatrix[arg].name);
+    let copyBasket = basket.map((item) => ({ ...item }));
+    // console.log(checkIfIn);
+
+    if (basket.length === 0) {
+      setBasket([tempItem]);
+    } else {
+      if (checkIfIn) {
+        let indexCheck = tempBasket.indexOf(productMatrix[arg].name);
+        copyBasket[indexCheck] = tempItem;
+        setBasket(copyBasket);
+      } else {
+        setBasket((currState) => [...currState, tempItem]);
+      }
+    }
+
+    // if basket is empty
+    // yes - add to basket
+    // no - check if the item is there
+    // if yes - update the count
+    // if not append
+
+    // if (indexOfItem === 0) {
+    //   let part1 = [tempItem];
+    //     console.log(part1);
+
+    //   let part2 = copyBasket.slice(1);
+    //   let updatedBasket = [...part1, ...part2];
+    //     console.log(updatedBasket);
+    //   setBasket(updatedBasket);
+    //     console.log("if_2");
+    // }
+    // if (indexOfItem.length === 0) {
+    //   setBasket((currState) => [...currState, tempItem]);
+    //     console.log("if_3");
+    // } else {
+    //   let partBefore = copyBasket.slice(0, indexOfItem);
+    //   let updatedItem = [tempItem];
+    //   let partAfter = copyBasket.slice(indexOfItem + 1);
+    //   let updatedBasket = [...partBefore, ...updatedItem, ...partAfter];
+    //   setBasket(updatedBasket);
+    //     console.log("if_3");
+    // }
+
+    // console.log(basket);
+    // setBasket((currState) => [...currState, tempItem]);
   };
-  // const tempBasket = "";
 
   return (
     <>
@@ -115,17 +177,17 @@ export const BasketView = () => {
             { key: "name", name: "Name" },
             { key: "description", name: "Description" },
             { key: "special", name: "Special Offer" },
-            { key: "priceitem", name: "Item Price" },
-            { key: "quantity", name: "Number of Items" },
-            { key: "pricetotal", name: "Price" },
+            { key: "itemprice", name: "Price" },
+            { key: "quantity", name: "Qty" },
+            { key: "pricetotal", name: "Total" },
           ]}
           itens={basket.map((item) => ({
             id: item.id,
             name: item.name,
             description: item.description,
             special: item.special,
-            priceitem: item.priceitem,
-            itemquantity: item.itemquantity,
+            itemprice: item.itemprice,
+            quantity: item.itemquantity,
             pricetotal: item.pricetotal,
           }))}
           total="ble"
