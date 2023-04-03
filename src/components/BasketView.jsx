@@ -48,7 +48,20 @@ export const BasketView = () => {
   };
   basket.forEach((item) => (itemsCount[item.name] += item.itemquantity));
 
-  //   console.log(itemsCount);
+  const priceTotals = {
+    "Item A": 0,
+    "Item B": 0,
+    "Item C": 0,
+    "Item D": 0,
+    "Item E": 0,
+  };
+
+  basket.forEach((item) => (priceTotals[item.name] += item.pricetotal));
+
+  let basketTotal = 0;
+  for (const price in priceTotals) {
+    basketTotal += priceTotals[price];
+  }
 
   const handleClick = (arg) => {
     let tempItem = {
@@ -56,6 +69,8 @@ export const BasketView = () => {
       description: productMatrix[arg].description,
       special: "",
       itemprice: productMatrix[arg].itemprice,
+      pricetotal:
+        priceTotals[productMatrix[arg].name] + productMatrix[arg].itemprice,
       itemquantity: itemsCount[productMatrix[arg].name] + 1,
     };
     // console.log(tempItem);
@@ -190,7 +205,9 @@ export const BasketView = () => {
             quantity: item.itemquantity,
             pricetotal: item.pricetotal,
           }))}
-          total="ble"
+          next={false}
+          pagination={false}
+          total={basketTotal}
         />
       </div>
     </>
