@@ -57,14 +57,6 @@ export const BasketView = () => {
   };
   basket.forEach((item) => (priceTotals[item.name] += item.pricetotal));
 
-  // basket.forEach((item) => (priceTotals[item.name] += item.pricetotal));
-  // special_offer
-  // when updating pricetotal
-  // check if there is special_offer
-  // if no - just add the price
-  // if yes divide math.min by the item number
-  // update price by the - special_offer price times whatever we got line above
-  // + remaining times the standard price
   let basketTotal = 0;
   for (const price in priceTotals) {
     basketTotal += priceTotals[price];
