@@ -55,32 +55,57 @@ export const BasketView = () => {
     "Item D": 0,
     "Item E": 0,
   };
-
   basket.forEach((item) => (priceTotals[item.name] += item.pricetotal));
 
+  // basket.forEach((item) => (priceTotals[item.name] += item.pricetotal));
+  // special_offer
+  // when updating pricetotal
+  // check if there is special_offer
+  // if no - just add the price
+  // if yes divide math.min by the item number
+  // update price by the - special_offer price times whatever we got line above
+  // + remaining times the standard price
   let basketTotal = 0;
   for (const price in priceTotals) {
     basketTotal += priceTotals[price];
   }
 
+  const specialOffers = {
+    "Item A": { items: 3, price: 130 },
+    "Item B": { items: 2, price: 45 },
+  };
+
+  const handlePrice = (arg1, arg2) => {
+    if (!specialOffers[arg1]) {
+      return priceTotals[arg1];
+    } else {
+      let discountPriecSum =
+        Math.floor(itemsCount[arg1] / specialOffers[arg1].items) *
+        specialOffers[arg1].price;
+      let standardPriceSum =
+        (itemsCount[arg1] % specialOffers[arg1].items) * arg2;
+      return discountPriecSum + standardPriceSum;
+    }
+  };
+
   const handleClick = (arg) => {
     let tempItem = {
       name: productMatrix[arg].name,
       description: productMatrix[arg].description,
-      special: "",
+      special: specialOffers[productMatrix[arg].name]
+        ? specialOffers[productMatrix[arg].name].items +
+          " for " +
+          specialOffers[productMatrix[arg].name].price
+        : "",
       itemprice: productMatrix[arg].itemprice,
       pricetotal:
         priceTotals[productMatrix[arg].name] + productMatrix[arg].itemprice,
       itemquantity: itemsCount[productMatrix[arg].name] + 1,
     };
-    // console.log(tempItem);
 
     let tempBasket = basket.map((x) => x.name);
-    //   let tempIndexes = basket.map((x, i)=> i)
     let checkIfIn = tempBasket.includes(productMatrix[arg].name);
-    let indexOfItem = tempBasket.indexOf(productMatrix[arg].name);
     let copyBasket = basket.map((item) => ({ ...item }));
-    // console.log(checkIfIn);
 
     if (basket.length === 0) {
       setBasket([tempItem]);
@@ -93,37 +118,6 @@ export const BasketView = () => {
         setBasket((currState) => [...currState, tempItem]);
       }
     }
-
-    // if basket is empty
-    // yes - add to basket
-    // no - check if the item is there
-    // if yes - update the count
-    // if not append
-
-    // if (indexOfItem === 0) {
-    //   let part1 = [tempItem];
-    //     console.log(part1);
-
-    //   let part2 = copyBasket.slice(1);
-    //   let updatedBasket = [...part1, ...part2];
-    //     console.log(updatedBasket);
-    //   setBasket(updatedBasket);
-    //     console.log("if_2");
-    // }
-    // if (indexOfItem.length === 0) {
-    //   setBasket((currState) => [...currState, tempItem]);
-    //     console.log("if_3");
-    // } else {
-    //   let partBefore = copyBasket.slice(0, indexOfItem);
-    //   let updatedItem = [tempItem];
-    //   let partAfter = copyBasket.slice(indexOfItem + 1);
-    //   let updatedBasket = [...partBefore, ...updatedItem, ...partAfter];
-    //   setBasket(updatedBasket);
-    //     console.log("if_3");
-    // }
-
-    // console.log(basket);
-    // setBasket((currState) => [...currState, tempItem]);
   };
 
   return (
@@ -180,6 +174,9 @@ export const BasketView = () => {
               adder: <button onClick={() => handleClick(5)}>add</button>,
             },
           ]}
+          totalPosition="bottom"
+          next={false}
+          pagination={false}
         />
       </div>
       <br></br>
@@ -203,11 +200,12 @@ export const BasketView = () => {
             special: item.special,
             itemprice: item.itemprice,
             quantity: item.itemquantity,
-            pricetotal: item.pricetotal,
+            pricetotal: handlePrice(item.name, item.itemprice),
           }))}
           next={false}
           pagination={false}
           total={basketTotal}
+          totalPosition="bottom"
         />
       </div>
     </>
