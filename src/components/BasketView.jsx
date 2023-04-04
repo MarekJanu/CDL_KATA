@@ -57,11 +57,6 @@ export const BasketView = () => {
   };
   basket.forEach((item) => (priceTotals[item.name] += item.pricetotal));
 
-  let basketTotal = 0;
-  for (const price in priceTotals) {
-    basketTotal += priceTotals[price];
-  }
-
   const specialOffers = {
     "Item A": { items: 3, price: 130 },
     "Item B": { items: 2, price: 45 },
@@ -69,7 +64,8 @@ export const BasketView = () => {
 
   const handlePrice = (arg1, arg2) => {
     if (!specialOffers[arg1]) {
-      return priceTotals[arg1];
+      let sumSum = itemsCount[arg1] * arg2;
+      return sumSum;
     } else {
       let discountPriecSum =
         Math.floor(itemsCount[arg1] / specialOffers[arg1].items) *
@@ -79,6 +75,9 @@ export const BasketView = () => {
       return discountPriecSum + standardPriceSum;
     }
   };
+
+  let testSum = basket.map((item) => handlePrice(item.name, item.itemprice));
+  let totTot = testSum.reduce((x, y) => x + y, 0);
 
   const handleClick = (arg) => {
     let tempItem = {
@@ -196,7 +195,7 @@ export const BasketView = () => {
           }))}
           next={false}
           pagination={false}
-          total={basketTotal}
+          total={totTot}
           totalPosition="bottom"
         />
       </div>
