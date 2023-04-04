@@ -128,7 +128,11 @@ export const BasketView = () => {
               id: 1,
               name: "Item A",
               description: "Description 1",
-              special: "Special offer1",
+              special: specialOffers["Item A"]
+                ? specialOffers["Item A"].items +
+                  " for " +
+                  specialOffers["Item A"].price
+                : "",
               itemprice: 50,
               adder: <button onClick={() => handleClick(1)}>add</button>,
             },
@@ -136,7 +140,11 @@ export const BasketView = () => {
               id: 2,
               name: "Item B",
               description: "Description 2",
-              special: "Special offer2",
+              special: specialOffers["Item B"]
+                ? specialOffers["Item B"].items +
+                  " for " +
+                  specialOffers["Item B"].price
+                : "",
               itemprice: 30,
               adder: <button onClick={() => handleClick(2)}>add</button>,
             },
@@ -144,7 +152,11 @@ export const BasketView = () => {
               id: 3,
               name: "Item C",
               description: "Description 3",
-              special: "Special offer3",
+              special: specialOffers["Item C"]
+                ? specialOffers["Item C"].items +
+                  " for " +
+                  specialOffers["Item C"].price
+                : "",
               itemprice: 20,
               adder: <button onClick={() => handleClick(3)}>add</button>,
             },
@@ -152,7 +164,11 @@ export const BasketView = () => {
               id: 4,
               name: "Item D",
               description: "Description 4",
-              special: "Special offer4",
+              special: specialOffers["Item D"]
+                ? specialOffers["Item D"].items +
+                  " for " +
+                  specialOffers["Item D"].price
+                : "",
               itemprice: 15,
               adder: <button onClick={() => handleClick(4)}>add</button>,
             },
@@ -160,7 +176,11 @@ export const BasketView = () => {
               id: 5,
               name: "Item E",
               description: "Description 5",
-              special: "Special offer5",
+              special: specialOffers["Item E"]
+                ? specialOffers["Item E"].items +
+                  " for " +
+                  specialOffers["Item E"].price
+                : "",
               itemprice: 18,
               adder: <button onClick={() => handleClick(5)}>add</button>,
             },
